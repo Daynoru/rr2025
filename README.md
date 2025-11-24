@@ -86,9 +86,9 @@ wilcox.test() #непараметрический тест для сравнен
 ### Команды пакетов
 Используемые библиотеки: openxlsx, ggplot2, ggpubr, scales
 ```R
-read.xlsx()
-ggplot()
-ggsave()
+read.xlsx() #чтение данных из Excel файлов
+ggplot() #создание графиков грамматикой графиков
+ggsave() #сохранение ggplot графиков в файлы
 ```
 
 ### Пример кода для ggplot2
