@@ -105,6 +105,5 @@ ggsave("results1.png", device=png, width=16, height=12, units="cm")
 ```
 Результат кода:
 
-![](https://github.com/Daynoru/rr2025/blob/main/image/results1.png)
-
+<img src="https://github.com/Daynoru/rr2025/blob/main/image/results1.png" alt="График" width="50%" />
 
