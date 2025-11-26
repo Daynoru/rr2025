@@ -93,18 +93,17 @@ ggsave() #сохранение ggplot графиков в файлы
 
 ### Пример кода для ggplot2
 ```R
-ggplot(data=tbl, aes(x=Group, y=GST.activity, fill=Species)) +
-  expand_limits(y=0) + #y=0 включаем
-  geom_boxplot(show.legend = FALSE) + #не показывать легенду к цвету
-  scale_fill_manual(values=c("#D2AA6D", "forestgreen")) + #указываем цвета (RGB или имя)
-  facet_wrap(~Species) +  #панели по видам
-  ylab("GST activity, a.u.") + 
-  xlab("") + #название оси Y
-  theme_bw(base_size = 16) + #увеличим размер шрифта + белый фон
-  theme(strip.text = element_text(face="italic")) #курсив
+yeast.growth <- read.xlsx("253_2023_12863_MOESM2_ESM.xlsx", sheet = 3)
+ggplot(yeast.growth, aes(x=Condition, y=RGR2)) + #данные для графика
+  geom_boxplot(color = "forestgreen", fill = "pink") + #рисуем боксплот
+  geom_pwc(method="wilcox_test", label = " {p.adj}", 
+            p.adjust.method = "holm") +
+geom_jitter(width = 0.1, colour = "forestgreen") 
+    
 
 ggsave("results1.png", device=png, width=16, height=12, units="cm")
 ```
+Результат кода:
 
 
 
