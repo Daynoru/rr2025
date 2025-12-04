@@ -66,6 +66,22 @@ hisat2_extract_splice_sites.py Saccharomyces_cerevisiae.R64-1-1.108.gtf > yeast_
 for sample in `ls *_1.fastq`; do base=$(basename $sample "_1.fastq"); hisat2 -x yeast_index --known-splicesite-infile yeast_splice_sites.txt -p 8 -1 ${base}_1.fastq -2 ${base}_2.fastq | samtools view --threads 2 -bS | samtools sort --threads 2 -o $base.bam; done
 ```
 
+### Код для анализа дифференциальной экспрессии генов
+
+```bash
+# export
+export PATH=$PATH:/media/secondary/apps/subread-2.0.4-Linux-x86_64/bin
+## featureCounts: quantify
+featureCounts -s 2 -T 2 -p -a Saccharomyces_cerevisiae.R64-1-1.108.gtf \
+-o allSamples.featureCounts.txt $(ls *.bam)
+```
+
+Пример скачивания данных с сервера. В данной работе для скачивания использовалось программное обеспечение Filezilla
+
+```bash
+.\pscp -P 627 2025_RR_StX@bioinformatics.isu.ru:~/allSamples.featureCounts.txt 
+```
+
 # Программирование на R
 
 ## Программный код
@@ -105,5 +121,35 @@ ggsave("results1.png", device=png, width=16, height=12, units="cm")
 ```
 Результат кода:
 
+<img src="https://github.com/Daynoru/rr2025/blob/main/image/results1.png" alt="График" width="50%" />
 
+### Визуализация дифференциальной экспрессии генов
 
+```R
+library(BiocManager)
+
+setwd("D:\\uni\\RR6")
+count_table <- read.delim("allSamples.featureCounts.txt", skip=1, row.names="Geneid")
+sample_table <- data.frame(condition=c("DL", "DL", "DL", "control",
+                                       "control"))
+library(DESeq2)
+ddsFullCountTable <- DESeqDataSetFromMatrix(
+  countData = count_table[,6:10], colData = sample_table, design = ~ condition)
+dds <- DESeq(ddsFullCountTable)
+res <- results(dds)
+
+library(EnhancedVolcano)
+EnhancedVolcano(res, lab = rownames(res),
+                x = 'log2FoldChange', y = 'pvalue',
+                pCutoff=0.05, pCutoffCol = 'padj', FCcutoff = 1,
+                title="Large Title", subtitle="Subtitle",
+                col = c("grey30", "grey30", "grey30", "red2"),
+                xlab="", ylab = bquote(~-Log[10] ~ italic(p)),
+                caption="", selectLab = "", legendPosition = 'none')
+
+DEGs <- res[abs(res$log2FoldChange) > 1 & res$padj < 0.05 & complete.cases(res$padj), ]
+DEGs <- DEGs[order(DEGs$log2FoldChange), ]
+library(openxlsx)
+DEGs$Transcript <- row.names(DEGs)
+write.xlsx(x = DEGs, file = "DEGs_yeast.xlsx")
+```
