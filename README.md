@@ -153,3 +153,7 @@ library(openxlsx)
 DEGs$Transcript <- row.names(DEGs)
 write.xlsx(x = DEGs, file = "DEGs_yeast.xlsx")
 ```
+
+Визуализация результатов анализа:
+
+<img src="https://github.com/Daynoru/rr2025/blob/main/image/diff.png" alt="График" width="50%" />
