@@ -1,10 +1,17 @@
-В данной работе использованы данные: транскриптом дрожжей Saccharomyces cerevisiae - реакция на 45 мМ L-лактата (https://doi.org/10.1007/s00253-023-12863-z)
+Модельный дрожжевой организм *Saccharomyces cerevisiae* является широко используемым объектом как фундаментальных, так и прикладных исследований, включая разработку биосенсоров и промышленное производство фармацевтических соединений. Однако, несмотря на многочисленные исследования транскрипционного ответа *S. cerevisiae* на различные вещества, реакция на некоторые соединения, производимые в дрожжах, в частности на L-лактат, остаётся неизученной. В данной работе мы исследуем транскрипционный ответ штамма BY4742 на 45 мМ L-лактата (https://doi.org/10.1007/s00253-023-12863-z).
+
+# Материалы и методы
+
+Для работы с удаленным сервером bash была использована программа PuTTY release (0.83) (https://www.chiark.greenend.org.uk/~sgtatham/putty/releases/0.83.html).
 
 # Работа с удаленным сервером bash
 
-Для работы использована программа PuTTY
+Для входа в аккаунт на сервере используем команду
 
+```bash
 - ssh -p 627 2025_RR_St_X@bioinformatics.isu.ru
+```
+где X - номер студента. 
 
 ### Основные команды
 
@@ -26,8 +33,9 @@
 | unzip file.zip | Архивы |  |
 | screen -S myprocess | Создание screen'а | Ctrl+A+D #чтобы выйти; screen -r myprocess #вернуться; screen -ls #показать список |
 
+Далее представлен код, который был использован в процессе работы с bash.
 
-Скачивание данных для дрожжей: 
+Скачивание данных для дальнейшей работы: 
 
 ```bash
 fasterq-dump --threads 2 -A --progress SRR24466389; fasterq-dump --threads 2 -A --progress SRR24466390; fasterq-dump --threads 2
@@ -35,9 +43,9 @@ fasterq-dump --threads 2 -A --progress SRR24466389; fasterq-dump --threads 2 -A 
 SRR24466375; fasterq-dump --threads 2 -A --progress SRR24466376
 ```
 
-## Выравнивание чтений на референс: дрожжи
+## Выравнивание чтений на референс
 
-### download reference / скачиваем референс
+### Скачивание референсных последовательностей
 
 ```bash
 wget https://ftp.ensembl.org/pub/release-108/gtf/saccharomyces_cerevisiae/Saccharomyces_cerevisiae.R64-1-1.108.gtf.gz
@@ -46,14 +54,14 @@ https://ftp.ensembl.org/pub/release-108/fasta/saccharomyces_cerevisiae/dna/Sacch
 vel.fa.gz
 ```
 
-### unpack archive / распаковываем архивы
+### Распаковка архивов
 
 ```bash
 gunzip Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa.gz
 gunzip Saccharomyces_cerevisiae.R64-1-1.108.gtf.gz
 ```
 
-### hisat: build index and prepare splice file / создаём индекс и готовим файл с данными сплайсинга в hisat2
+### Создание индекса hisat: build index and prepare splice file / создаём индекс и готовим файл с данными сплайсинга в hisat2
 
 ```bash
 hisat2-build Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa yeast_index
