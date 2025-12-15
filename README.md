@@ -8,8 +8,9 @@
 
 Референсные последовательности доступны по [данной ссылке](https://ftp.ensembl.org/pub/release-108/gtf/saccharomyces_cerevisiae/). Данные секвенирования доступны под номером доступа [PRJNA970274](https://www.ncbi.nlm.nih.gov/Traces/study/?acc=PRJNA970274&o=acc_s%3Aa). Использованные в работе данные ответа на 45 мМ L-лактата доступны под номерами: SRR24466389; SRR24466390; SRR24466391; SRR24466374; SRR24466375; SRR24466376.
 
+# Скачивание и выравнивание чтений на референс
 
-# Работа с удаленным сервером bash
+## Работа с удаленным сервером bash
 
 Для входа в аккаунт на сервере используем команду
 
@@ -38,8 +39,6 @@
 | unzip file.zip | Архивы |  |
 | screen -S myprocess | Создание screen'а | Ctrl+A+D #чтобы выйти; screen -r myprocess #вернуться; screen -ls #показать список |
 
-Далее представлен код, который был использован в процессе работы с bash.
-
 Скачивание данных для дальнейшей работы было осуществлено с использованием инструмента fasterq-dump, который позволяет скачивать данные из базы данных NCBI's Sequence Read Archive (SRA): 
 
 ```bash
@@ -48,9 +47,7 @@ fasterq-dump --threads 2 -A --progress SRR24466389; fasterq-dump --threads 2 -A 
 SRR24466375; fasterq-dump --threads 2 -A --progress SRR24466376
 ```
 
-## Выравнивание чтений на референс
-
-### Скачивание референсных последовательностей
+Скачивание референсных последовательностей:
 
 ```bash
 wget https://ftp.ensembl.org/pub/release-108/gtf/saccharomyces_cerevisiae/Saccharomyces_cerevisiae.R64-1-1.108.gtf.gz
@@ -59,28 +56,27 @@ https://ftp.ensembl.org/pub/release-108/fasta/saccharomyces_cerevisiae/dna/Sacch
 vel.fa.gz
 ```
 
-### Распаковка архивов
+## Выравнивание чтений на референс
+
+Скачанные архивы были распакованы посредством комнады gunzip. Затем полученные данные были использованы для создания индекса hisat и подготовки файла с данными сплайсинга в hisat2.
 
 ```bash
 gunzip Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa.gz
 gunzip Saccharomyces_cerevisiae.R64-1-1.108.gtf.gz
-```
 
-### Создание индекса hisat: build index and prepare splice file / создаём индекс и готовим файл с данными сплайсинга в hisat2
-
-```bash
 hisat2-build Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.fa yeast_index
 hisat2_extract_splice_sites.py Saccharomyces_cerevisiae.R64-1-1.108.gtf > yeast_splice_sites.txt
 ```
 
-### hisat: align & samtools: make sorted bam / выравниваем с помощью hisat2 и сортируем bam-файл с помощью samtools
+Выравнивание было осуществлено посредством hisat2 с последующей сортировкой bam-файла с помощью samtools.
 
 ```bash
 for sample in `ls *_1.fastq`; do base=$(basename $sample "_1.fastq"); hisat2 -x yeast_index --known-splicesite-infile yeast_splice_sites.txt -p 8 -1 ${base}_1.fastq -2 ${base}_2.fastq | samtools view --threads 2 -bS | samtools sort --threads 2 -o $base.bam; done
 ```
 
-### Код для анализа дифференциальной экспрессии генов
+# Анализ дифференциальной экспрессии генов
 
+это про что
 ```bash
 # export
 export PATH=$PATH:/media/secondary/apps/subread-2.0.4-Linux-x86_64/bin
@@ -88,18 +84,12 @@ export PATH=$PATH:/media/secondary/apps/subread-2.0.4-Linux-x86_64/bin
 featureCounts -s 2 -T 2 -p -a Saccharomyces_cerevisiae.R64-1-1.108.gtf \
 -o allSamples.featureCounts.txt $(ls *.bam)
 ```
-
-Пример скачивания данных с сервера. В данной работе для скачивания использовалось программное обеспечение Filezilla.
-
-```bash
-.\pscp -P 627 2025_RR_StX@bioinformatics.isu.ru:~/allSamples.featureCounts.txt 
-```
+Для скачивание данных использовали программное обеспечение Filezilla.
 
 # Программирование на R
 
-## Программный код
 
-### Основные команды базового R
+## Основные команды базового R
 ```R
 setwd() #установка рабочей директории
 install.packages() #установка пакетов из CRAN
