@@ -169,7 +169,11 @@ EnhancedVolcano(res, lab = rownames(res),
 
 Визуализация результатов анализа:
 
-<img src="https://github.com/Daynoru/rr2025/blob/main/image/diff.png" alt="График" width="50%" />
+<img src="https://github.com/Daynoru/rr2025/blob/main/image/diff_expression.png" alt="График" width="50%" />
+
+Некоторые гены, изменившие экспрессию, можно отобразить на графике:
+
+<img src="https://github.com/Daynoru/rr2025/blob/main/image/diff_expression_withlabels.png" alt="График" width="50%" />
 
 Дальнейший анализ был произведен с использованием геномной базы данных [Saccharomyces genome database](https://yeastgenome.org/). Наиболее интересные гены представлены в таблице:
 
