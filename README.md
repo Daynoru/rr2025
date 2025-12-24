@@ -179,18 +179,11 @@ EnhancedVolcano(res, lab = rownames(res),
 
 | Ген | Описание | Пояснение |
 |-------------|-------------|-------------|
-| [ECM3 / YOR092W](https://yeastgenome.org/locus/S000005618)   | involved in signal transduction and the genotoxic response; induced rapidly in response to treatment with 8-methoxypsoralen and UVA irradiation; relocalizes from ER to cytoplasm upon DNA replication stress    | Индукция экспрессии гена в ответ на повреждение ДНК или окислительный стресс  |
-| YNL097W-A | Перейти в другое расположение (change directory)    |Перестройка регуляции сплайсинга при стрессе|
-| mkdir   | Создать пустую папку (make directory)   | |
-| ls     | Посмотреть содержимое папки (ls -lh /home/user/test)  | -h удобное отображение размера; -t сортировка по размеру; -l табличкой  |
-| head, tail     | Посмотреть начало или конец файла   |  |
-| cat | Посмотреть весь файл   |  |
-| grep  | Поиск текста в файле|   |
-| >  | Записать вывод команды в файл |  > file.txt |
-| mv, cp  | Переместить или переименовать; копировать | -r = работа с папкой  |
-| rm  | Удалить| -r = удаляет папку  |
-| nano  | Текстовый редактор|  |
-| sudo название_команды опции файл  | Права администратора |  |
-| scp /path/to/local/file username@server:/path/to/file | Скачивание между локальным компьютером и удалённым сервером |  |
-| unzip file.zip | Архивы |  |
-| screen -S myprocess | Создание screen'а | Ctrl+A+D #чтобы выйти; screen -r myprocess #вернуться; screen -ls #показать список |
+| [ECM3 / YOR092W](https://yeastgenome.org/locus/S000005618)   | involved in signal transduction and the genotoxic response; induced rapidly in response to treatment with 8-methoxypsoralen and UVA irradiation; relocalizes from ER to cytoplasm upon DNA replication stress    | Снижение экспрессии гена в ответ на повреждение ДНК или окислительный стресс для экономии клеточных ресурсов  |
+| YNL097W-A | Перейти в другое расположение (change directory)    |Перестройка регуляции сплайсинга при стрессе, что позволяет повысить гибкость и адаптацию в стрессовых условиях, например, посредством альтернативного сплайсинга |
+| YGL009C / PUS7   | Создать пустую папку (make directory)   | Регуляция трансляции в условиях стресса путем модификации тРНК|
+| YHL040C	PUS4 / TRUB1 | Посмотреть содержимое папки (ls -lh /home/user/test)  | Регуляция трансляции в условиях стресса (координировано с PUS7)  |
+|ITS2-1| Посмотреть начало или конец файла   | Снижение активности биогенеза рибосом при стрессе |
+| snR84 | Посмотреть весь файл   | Снижение активности биогенеза/модификации рибосом, что имеет смысл в стрессовых условиях для снижения нагрузки на клетку |
+
+
