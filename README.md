@@ -155,9 +155,38 @@ DEGs <- DEGs[order(DEGs$log2FoldChange), ]
 library(openxlsx)
 DEGs$Transcript <- row.names(DEGs)
 write.xlsx(x = DEGs, file = "DEGs_yeast.xlsx")
+
+EnhancedVolcano(res, lab = rownames(res),
+                x = 'log2FoldChange', y = 'pvalue',
+                pCutoff=0.05, pCutoffCol = 'padj', FCcutoff = 1,
+                title="S. cerevisiae", subtitle="45 mM L-lactate vs control",
+                col = c("grey30", "grey30", "grey30", "red2"),
+                xlab="", ylab = bquote(~-Log[10] ~ italic(p)),
+                caption="", 
+                selectLab = rownames(DEGs),  #при необходимости на графике можно отобразить гены, изменившие экспрессию
+                legendPosition = 'none')
 ```
 
 Визуализация результатов анализа:
 
 <img src="https://github.com/Daynoru/rr2025/blob/main/image/diff.png" alt="График" width="50%" />
 
+Дальнейший анализ был произведен с использованием геномной базы данных [Saccharomyces genome database](https://yeastgenome.org/). Наиболее интересные гены представлены в таблице:
+
+| Ген | Описание | Пояснение |
+|-------------|-------------|-------------|
+| [ECM3 / YOR092W](https://yeastgenome.org/locus/S000005618)   | involved in signal transduction and the genotoxic response; induced rapidly in response to treatment with 8-methoxypsoralen and UVA irradiation; relocalizes from ER to cytoplasm upon DNA replication stress    | Индукция экспрессии гена в ответ на повреждение ДНК или окислительный стресс  |
+| YNL097W-A | Перейти в другое расположение (change directory)    |Перестройка регуляции сплайсинга при стрессе|
+| mkdir   | Создать пустую папку (make directory)   | |
+| ls     | Посмотреть содержимое папки (ls -lh /home/user/test)  | -h удобное отображение размера; -t сортировка по размеру; -l табличкой  |
+| head, tail     | Посмотреть начало или конец файла   |  |
+| cat | Посмотреть весь файл   |  |
+| grep  | Поиск текста в файле|   |
+| >  | Записать вывод команды в файл |  > file.txt |
+| mv, cp  | Переместить или переименовать; копировать | -r = работа с папкой  |
+| rm  | Удалить| -r = удаляет папку  |
+| nano  | Текстовый редактор|  |
+| sudo название_команды опции файл  | Права администратора |  |
+| scp /path/to/local/file username@server:/path/to/file | Скачивание между локальным компьютером и удалённым сервером |  |
+| unzip file.zip | Архивы |  |
+| screen -S myprocess | Создание screen'а | Ctrl+A+D #чтобы выйти; screen -r myprocess #вернуться; screen -ls #показать список |
