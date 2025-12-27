@@ -2,8 +2,9 @@
 
 Данный репозиторий содержит данные и программный код, необходимые для анализа транскрипционного ответа *S. cerevisiae*  на 45 мМ L-лактата. 
 
-
-
+<p align="center">
+  <img src="https://github.com/Daynoru/rr2025/blob/main/image/Full_workflow.png" alt="workflow image" width="70%"/>
+</p>
 
 
 # Материалы и методы
@@ -14,9 +15,13 @@
 
 # Скачивание и выравнивание чтений на референс
 
+Перед непосредственным анализом дифференциальной экспрессии генов было необходимо произвести скачиваение и выравнивание чтений на референсную последовательность. Для данной работы был использован удаленный сервер bash. 
+
+Bash (Bourne-Again SHell) — это командная оболочка и язык сценариев для Linux, macOS и других UNIX-подобных систем. Позволяет пользователю взаимодействовать с системой через команды, автоматизировать задачи и писать скрипты для управления процессами, файлами и программами.
+
 ## Работа с удаленным сервером bash
 
-Для входа в аккаунт на сервере используем команду
+Для входа в аккаунт на сервере используем команду:
 
 ```bash
 - ssh -p 627 2025_RR_St_X@bioinformatics.isu.ru
@@ -80,7 +85,8 @@ for sample in `ls *_1.fastq`; do base=$(basename $sample "_1.fastq"); hisat2 -x 
 
 # Анализ дифференциальной экспрессии генов
 
-это про что
+ Далее был осуществлен подсчет экспрессии: 
+
 ```bash
 # export
 export PATH=$PATH:/media/secondary/apps/subread-2.0.4-Linux-x86_64/bin
@@ -88,9 +94,7 @@ export PATH=$PATH:/media/secondary/apps/subread-2.0.4-Linux-x86_64/bin
 featureCounts -s 2 -T 2 -p -a Saccharomyces_cerevisiae.R64-1-1.108.gtf \
 -o allSamples.featureCounts.txt $(ls *.bam)
 ```
-Для скачивание данных использовали программное обеспечение Filezilla.
-
-# Программирование на R
+Для скачивания данных использовали программное обеспечение Filezilla.
 
 
 ## Основные команды базового R
@@ -190,6 +194,8 @@ EnhancedVolcano(res, lab = rownames(res),
 | [snR84](https://yeastgenome.org/locus/S000028466) | H/ACA box small nucleolar RNA (snoRNA); guides pseudouridylation of large subunit (LSU) rRNA at position U2266; overexpression confers resistance to baking-associated stress   | Снижение активности биогенеза/модификации рибосом, что имеет смысл в стрессовых условиях для снижения нагрузки на клетку |↓ |
 | [SOD1 / YJR104C](https://yeastgenome.org/locus/S000003865) | Cytosolic copper-zinc superoxide dismutase; also sulfide oxidase; detoxifies superoxide and hydrogen sulfide; stabilizes Yck1p and Yck2p kinases in glucose to repress respiration; phosphorylated by Dun1p, enters nucleus under oxidative stress to promote transcription of stress response genes; abundance increases under DNA replication stress  | SOD1 превращает два супероксид-аниона в менее опасную перекись водорода (H₂O₂) и молекулярный кислород. Это первая и важнейшая линия защиты от окислительного стресса. |↑ |
 | [RMD5 / YDR255C](https://yeastgenome.org/locus/S000002663) | Component of GID Complex that confers ubiquitin ligase (U3) activity; necessary for polyubiquitination and degradation of the gluconeogenic enzyme fructose-1,6-bisphosphatase | Вызывает деградацию одного из ключевых ферментов глюконееогенеза, снижая энергозатраты. |↑ |
+
+# Выводы
 
 Таким образом, на основании изменения экспрессии генов *S. cerevisiae* в ответ на 45 мМ L-лактата, мы можем наблюдать, что ответ затрагивает множество метаболических путей. Можно сделать выводы о том, что для дрожжей характерная многоуровневая адаптация на стрессовые условия, которая направлена как на нейтрализацию непосредственной угрозы, экономию ресурсов, так и перестройку метаболизма всей клетки для выживания. 
 
