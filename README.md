@@ -2,6 +2,10 @@
 
 Данный репозиторий содержит данные и программный код, необходимые для анализа транскрипционного ответа *S. cerevisiae*  на 45 мМ L-лактата. 
 
+
+
+
+
 # Материалы и методы
 
 Для работы с удаленным сервером bash была использована программа [PuTTY версии 0.83](https://www.chiark.greenend.org.uk/~sgtatham/putty/releases/0.83.html). Основной анализ данных выполнен на языке программирования [R версии 4.3.1](https://www.r-project.org/)  в программной среде [RStudio](https://posit.co/download/rstudio-desktop/). Полученная таблица подсчётов была обработана с использованием пакета [DESeq2](https://bioconductor.org/packages/release/bioc/html/DESeq2.html) версии 1.50.2 с целью сравнения уровней экспрессии. Визуализация данных выполнена с помощью пакетов [ggplot2](https://ggplot2.tidyverse.org/) версии 4.0.1, [enhancedVolcano](https://bioconductor.org/packages/release/bioc/html/EnhancedVolcano.html) версии 1.28.2 и [DEGReport](https://www.bioconductor.org/packages/release/bioc/html/DEGreport.html)  версии 1.46.0 для R. Для скачивания данных с сервера использована программа [Filezilla](https://filezilla-project.org/) версии 1.12.1.
