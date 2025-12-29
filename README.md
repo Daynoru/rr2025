@@ -166,7 +166,7 @@ ggsave("results1.png", device=png, width=16, height=12, units="cm") #сохра�
 
 ### Визуализация дифференциальной экспрессии генов
 
-Идентификация дифференциально экспрессируемых генов (DEGs) между образцами, обработанными L-лактатом, и контрольными образцами были выполнены в среде R с использованием пакета DESeq2. Визуализация результатов осуществлена с помощью пакета EnhancedVolcano.
+Идентификация дифференциально экспрессируемых генов (DEGs) между образцами, обработанными L-лактатом, и контрольными образцами были выполнены в среде R с использованием пакета **DESeq2**. Визуализация результатов осуществлена с помощью пакета **EnhancedVolcano**.
 
 ```R
 library(BiocManager)
@@ -183,10 +183,10 @@ res <- results(dds)
 
 library(EnhancedVolcano)
 EnhancedVolcano(res, lab = rownames(res),
-                x = 'log2FoldChange', y = 'pvalue',
-                pCutoff=0.05, pCutoffCol = 'padj', FCcutoff = 1,
+                x = 'log2FoldChange', y = 'pvalue', #ось X: логарифмированное изменение экспрессии и  ось Y: исходные p-значения статистического теста
+                pCutoff=0.05, pCutoffCol = 'padj', FCcutoff = 1, #числовой порог для p-значений и экспрессии
                 title="Large Title", subtitle="Subtitle",
-                col = c("grey30", "grey30", "grey30", "red2"),
+                col = c("grey30", "grey30", "grey30", "red2"), 
                 xlab="", ylab = bquote(~-Log[10] ~ italic(p)),
                 caption="", selectLab = "", legendPosition = 'none')
 
@@ -218,15 +218,15 @@ EnhancedVolcano(res, lab = rownames(res), #визуализация резуль
 
 Для интерпретации биологического значения выявленных изменений был проведен функциональный анализ с использованием базы данных  [Saccharomyces genome database](https://yeastgenome.org/). Наиболее интересные гены, демонстрирующие значительные изменения экспрессии в ответ на обработку L-лактатом, представлены в таблице.
 
-| Ген | Описание | Пояснение | Изменение |
+| Ген | Описание | Пояснение | Изменение экспрессии|
 |-------------|-------------|-------------|-------------|
 | [ECM3 / YOR092W](https://yeastgenome.org/locus/S000005618)   | involved in signal transduction and the genotoxic response; induced rapidly in response to treatment with 8-methoxypsoralen and UVA irradiation; relocalizes from ER to cytoplasm upon DNA replication stress    | Снижение экспрессии гена в ответ на повреждение ДНК или окислительный стресс для экономии клеточных ресурсов  |↓ |
-| [LEU1 / YGL009C](https://yeastgenome.org/locus/S000002977)   | Isopropylmalate isomerase; catalyzes the second step in the leucine biosynthesis pathway   | Связывает кислотный стресс с регуляцией метаболизма аминокислот. Возможная компенсаторная активация. |↑ |
+| [LEU1 / YGL009C](https://yeastgenome.org/locus/S000002977)   | Isopropylmalate isomerase; catalyzes the second step in the leucine biosynthesis pathway   | Связывает кислотный стресс с регуляцией метаболизма аминокислот |↑ |
 | [ARN1 / YHL040C](https://yeastgenome.org/locus/S000001032) | ARN family transporter for siderophore-iron chelates; responsible for uptake of iron bound to ferrirubin, ferrirhodin, and related siderophores; protein increases in abundance and relocalizes to the vacuole upon DNA replication stress  | Регуляция трансляции в условиях стресса  |↓ |
 |[ZPS1 / YOL154W](https://yeastgenome.org/locus/S000005514)| Putative GPI-anchored protein; transcription is induced under low-zinc conditions, as mediated by the Zap1p transcription factor, and at alkaline pH   |Участвуют в ремоделировании клеточной стенки, усилении барьера или передаче сигналов. Это может быть частью структурной адаптации к стрессу |↑ |
-| [snR84](https://yeastgenome.org/locus/S000028466) | H/ACA box small nucleolar RNA (snoRNA); guides pseudouridylation of large subunit (LSU) rRNA at position U2266; overexpression confers resistance to baking-associated stress   | Снижение активности биогенеза/модификации рибосом, что имеет смысл в стрессовых условиях для снижения нагрузки на клетку |↓ |
+| [snR84](https://yeastgenome.org/locus/S000028466) | H/ACA box small nucleolar RNA (snoRNA); guides pseudouridylation of large subunit (LSU) rRNA at position U2266; overexpression confers resistance to baking-associated stress   | Снижение активности биогенеза/модификации рибосом, что имеет значение в стрессовых условиях для снижения нагрузки на клетку |↓ |
 | [SOD1 / YJR104C](https://yeastgenome.org/locus/S000003865) | Cytosolic copper-zinc superoxide dismutase; also sulfide oxidase; detoxifies superoxide and hydrogen sulfide; stabilizes Yck1p and Yck2p kinases in glucose to repress respiration; phosphorylated by Dun1p, enters nucleus under oxidative stress to promote transcription of stress response genes; abundance increases under DNA replication stress  | SOD1 превращает два супероксид-аниона в менее опасную перекись водорода (H₂O₂) и молекулярный кислород. Это первая и важнейшая линия защиты от окислительного стресса. |↑ |
-| [RMD5 / YDR255C](https://yeastgenome.org/locus/S000002663) | Component of GID Complex that confers ubiquitin ligase (U3) activity; necessary for polyubiquitination and degradation of the gluconeogenic enzyme fructose-1,6-bisphosphatase | Вызывает деградацию одного из ключевых ферментов глюконееогенеза, снижая энергозатраты. |↑ |
+| [RMD5 / YDR255C](https://yeastgenome.org/locus/S000002663) | Component of GID Complex that confers ubiquitin ligase (U3) activity; necessary for polyubiquitination and degradation of the gluconeogenic enzyme fructose-1,6-bisphosphatase | Вызывает деградацию одного из ключевых ферментов глюконеогенеза, снижая энергозатраты. |↑ |
 
 # Выводы
 
